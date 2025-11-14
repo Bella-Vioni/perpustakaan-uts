@@ -5,6 +5,8 @@ if(!isset($_SESSION['admin_logged_in'])) {
     exit;
 }
 
+require_once "includes/config.php";
+
 define('MY_APP', true);
 
 // Get hal
