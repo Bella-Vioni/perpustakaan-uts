@@ -18,13 +18,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $target_file = $target_dir . $file_name;
                
         if (move_uploaded_file($_FILES["foto_profil"]["tmp_name"], $target_file)) {
-           $foto_profile = $file_name;
+           $foto_profil = $file_name;
         }
     }
 
     $sql = "INSERT INTO anggota (nama_lengkap, email, password, alamat, no_telepon, foto_profil ) VALUES (?, ?, ?, ?, ?, ?)";
     if ($stmt = $mysqli->prepare($sql)) {
-        $stmt->bind_param("ssssss", $nama_lengkap, $email, $password, $alamat, $no_telepon, $foto_profile);
+        $stmt->bind_param("ssssss", $nama_lengkap, $email, $password, $alamat, $no_telepon, $foto_profil);
         if ($stmt->execute()) {          
             $pesan = "Anggota Dengan Nama <b>" . $nama_lengkap . "</b> Berhasil di Tambahkan";
         } else {
