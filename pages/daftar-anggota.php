@@ -4,13 +4,13 @@ if(!defined('MY_APP')) {
     die('Akses langsung tidak diperbolehkan!');
 }
 
+
 $sql = "SELECT * FROM anggota ORDER BY id_anggota DESC";
-
 $result = $mysqli->query($sql);
-if(!$result) {
-    die("QUERY Error: " . $mysqli->error);
-}
 
+if (!$result) {
+    die("Query error: " . $mysqli->error);
+}
 
 ?>
 
@@ -19,52 +19,53 @@ if(!$result) {
     <ol class="breadcrumb mb-4">
         <li class="breadcrumb-item active">Daftar Anggota</li>
     </ol>
- 
+    
     <div class="card mb-4">
         <div class="card-body">
-            <a href="index.php?hal=tambah-anggota" class="btn btn-success mb-3">Tambah Anggota</a>
-
+            <a href="index.php?hal=tambah-anggota" class="btn btn-primary mb-3">Tambah Anggota Baru</a>
             <table class="table table-striped table-bordered">
                 <thead class="table-dark">
                     <tr>
-                        <th>No</th>
-                        <th>Nama</th>
-                        <th>Email</th>
+                        <th style="width:5%">#</th>
+                        <th style="width:25%">Nama</th>
+                        <th style="width:20%">Email</th>
                         <th>Alamat</th>
-                        <th>No Telepon</th>                       
-                        <th>Action</th>
+                        <th>No Telepon</th>
+                        <th>Aksi</th>
                     </tr>
                 </thead>
                 <tbody>
-                    
                     <?php $no = 1 ?>
-                    <?php while ($row = $result->fetch_assoc()) : ?> 
+                    <?php while ($row = $result->fetch_assoc()) : ?>
                     <tr>
                         <td><?php echo $no ?></td>
                         <td>
-                            
                             <div class="d-flex align-items-center">
-                                <?php if (!empty($row['foto_profil'])) : ?>                                                                       
-                                    <img src="/admin-perpustakaan/pages/uploads/users/<?php echo $row['foto_profil'] ?>" alt="foto_profil" width="60" height="80" style="object-fit: cover; border-radius: 5px; margin-right: 10px" />                                   
-                                <?php else : ?>
-                                    <div style="width= 60; height=80; background:#ddd; border-radius: 5px; margin-right: 10px; display:flex; align-items:center; justify-content: center; color: #999;">No<br> Cover</div>                                                                      
-                                <?php endif; ?> 
+                                <?php if (!empty($row['foto_profil'])): ?>
+                                    <img src="uploads/foto-profil/<?php echo $row['foto_profil']; ?>" 
+                                         alt="<?php echo $row['nama_lengkap'] ?>" 
+                                         width="60" height="80" 
+                                         style="object-fit: cover; border-radius: 5px; margin-right: 10px;">
+                                <?php else: ?>
+                                    <div style="width:60px; height:80px; background:#ddd; border-radius:5px; margin-right:10px; display:flex; align-items:center; justify-content:center; color:#999;">
+                                        No<br>Foto
+                                    </div>
+                                <?php endif; ?>
+
                                 <div>
-                                    <?php echo $row['nama_lengkap'] ?>
-                                </div>                             
+                                    <?php echo htmlspecialchars($row['nama_lengkap']); ?>
+                                </div>
                             </div>
-                        </td>                        
+                        </td>
                         <td><?php echo $row['email'] ?></td>
                         <td><?php echo $row['alamat'] ?></td>
-                        <td><?php echo $row['no_telepon'] ?></td>                        
+                        <td><?php echo $row['no_telepon'] ?></td>
                         <td>
-                            <a href="index.php?hal=ubah-password&id_anggota=<?php echo $row['id_anggota'] ?>" class="btn btn-primary btn-sm"><span class="fas fa-key me-1"></span>Ubah</a> 
+                            <a href="index.php?hal=reset-password&id_anggota=<?php echo $row['id_anggota'] ?>" class='btn btn-primary btn-sm'><span class="me-2 fas fa-key"></span>Ubah</a>
                         </td>
                     </tr>
-                    <?php $no++ ?>
-                    <?php endwhile;
-                    $mysqli->close(); ?>
-                    
+                    <?php $no++; endwhile; ?>
+                    <?php $mysqli->close(); ?>
                 </tbody>
             </table>
         </div>
